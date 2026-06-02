@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: benchmark-text-classification
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      # Keep Hugging Face and runtime settings configurable from the host environment.
+      HF_HOME: ${HF_HOME:-/app/.cache/huggingface}
+      TRANSFORMERS_CACHE: ${TRANSFORMERS_CACHE:-/app/.cache/huggingface/transformers}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      # Mount the repository so the container reflects the current working tree.
+      - .:/app
+      # Keep experiment artifacts on the host for later phases.
+      - ./outputs:/app/outputs
+      - ./results:/app/results
+    command: ["python", "src/main.py"]
+    # Future GPU support can be enabled here once training workloads are added.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]

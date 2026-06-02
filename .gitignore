@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+outputs/models/
+results/results.json
+.vscode/
+.idea/
+*.log
+*.ipynb_checkpoints/
