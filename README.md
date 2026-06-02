@@ -95,6 +95,12 @@ This startup path currently prints the initialization message and ensures the ex
 - `outputs/plots`
 - `results`
 
+The repository also includes a `.dockerignore` file to keep the build context small and predictable. It excludes the local virtual environment, Git metadata, editor settings, Python caches, Hugging Face caches, and generated model/results artifacts so Docker does not spend time sending unnecessary files to the daemon.
+
+That keeps `docker-compose build` faster and prevents local-only files from being copied into the image.
+
+Phase 1 intentionally keeps `requirements.txt` lightweight so the base container can build quickly without downloading the full machine learning stack. The Hugging Face, PyTorch, and model-training dependencies will be added in later phases when the benchmark pipeline itself is implemented.
+
 The container is prepared for later ML implementation phases, including Hugging Face caching and future GPU-enabled training.
 
 ## Docker Setup Placeholder

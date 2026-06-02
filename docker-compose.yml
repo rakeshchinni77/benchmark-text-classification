@@ -10,7 +10,6 @@ services:
       # Keep Hugging Face and runtime settings configurable from the host environment.
       HF_HOME: ${HF_HOME:-/app/.cache/huggingface}
       TRANSFORMERS_CACHE: ${TRANSFORMERS_CACHE:-/app/.cache/huggingface/transformers}
-      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       # Mount the repository so the container reflects the current working tree.
@@ -19,9 +18,3 @@ services:
       - ./outputs:/app/outputs
       - ./results:/app/results
     command: ["python", "src/main.py"]
-    # Future GPU support can be enabled here once training workloads are added.
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: ["gpu"]

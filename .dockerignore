@@ -1,0 +1,16 @@
+.venv
+.git
+__pycache__
+**/__pycache__
+.vscode
+outputs/models
+outputs/logs
+results/results.json
+.cache
+.huggingface
+huggingface
+hf_home
+**/.cache
+**/.huggingface
+**/huggingface
+**/hf_home
