@@ -80,6 +80,18 @@ pip install -r requirements.txt
 
 Copy `.env.example` to `.env` and adjust any local Hugging Face cache or GPU settings as needed.
 
+## Dependencies
+
+The current runtime dependency set is intentionally lightweight for the infrastructure and data phases:
+
+- `python-dotenv`
+- `numpy`
+- `pandas`
+- `tqdm`
+- `datasets`
+
+Phase 3 requires `datasets` so the AG News loader can import `from datasets import load_dataset`. The heavier ML stack such as `torch`, `transformers`, `evaluate`, and `accelerate` remains deferred until later phases.
+
 ## Docker Setup
 
 Build and run the Phase 1 container bootstrap with:
