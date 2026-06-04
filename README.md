@@ -89,8 +89,10 @@ The current runtime dependency set is intentionally lightweight for the infrastr
 - `pandas`
 - `tqdm`
 - `datasets`
+- `evaluate`
+- `scikit-learn`
 
-Phase 3 requires `datasets` so the AG News loader can import `from datasets import load_dataset`. The heavier ML stack such as `torch`, `transformers`, `evaluate`, and `accelerate` remains deferred until later phases.
+Phase 3 requires `datasets` so the AG News loader can import `from datasets import load_dataset`. Phase 4 adds `evaluate` for reusable metrics. The heavier ML stack such as `torch`, `transformers`, and `accelerate` remains deferred until later phases.
 
 ## Docker Setup
 
