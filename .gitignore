@@ -1,9 +1,23 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
-outputs/models/
-results/results.json
+
+# IDE
 .vscode/
 .idea/
+
+# Logs
 *.log
+
+# Jupyter
 *.ipynb_checkpoints/
+
+# Generated results
+results/results.json
+
+# Trained models
+outputs/models/
+
+# Hugging Face cache
+.cache/
