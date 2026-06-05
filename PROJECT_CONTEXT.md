@@ -497,9 +497,9 @@ Phase 7 - Few-Shot Sensitivity
 
 status - completed
 
-Current Phase:
-Phase 8 — Fine-Tuning DistilBERT
 
+Phase 8 — Fine-Tuning DistilBERT
+status - completed
 Goal:
 Fine-tune DistilBERT on AG News dataset.
 
@@ -523,8 +523,11 @@ peak_training_gpu_memory_mb
 accuracy
 macro_f1
 
+current phase
+Phase 9-Inference Benchmarking
+
+
 Future Dependencies:
-Phase 9 uses this model.
 Phase 10 uses same pipeline for data efficiency study.
 
 ---
