@@ -9,7 +9,14 @@ from typing import Any
 
 import torch
 import evaluate
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments, __version__ as transformers_version
+from transformers import (
+	AutoModelForSequenceClassification,
+	AutoTokenizer,
+	DataCollatorWithPadding,
+	Trainer,
+	TrainingArguments,
+	__version__ as transformers_version,
+)
 
 from src.config.config import (
 	DEVICE,
@@ -78,8 +85,10 @@ class FineTuner:
 			remove_columns=["text"],
 		)
 
-		train_dataset.set_format("torch")
-		eval_dataset.set_format("torch")
+		# Use default format (not "torch") to avoid NumPy 2.x incompatibility
+		# when datasets interacts with the Trainer's compute_metrics callback.
+		# The Trainer will handle tensor conversion automatically.
+		logger.info("Dataset preparation complete: using default format for Trainer compatibility")
 
 		return train_dataset, eval_dataset
 
@@ -94,9 +103,10 @@ class FineTuner:
 
 	def _compute_metrics(self, eval_pred: Any) -> dict[str, float]:
 		predictions, labels = eval_pred
-		predictions = predictions.argmax(axis=-1)
-		accuracy_result = self.metric_accuracy.compute(predictions=predictions, references=labels)
-		f1_result = self.metric_f1.compute(predictions=predictions, references=labels, average="macro")
+		# argmax is available on both numpy arrays and torch tensors
+		predictions_idx = predictions.argmax(axis=-1)
+		accuracy_result = self.metric_accuracy.compute(predictions=predictions_idx, references=labels)
+		f1_result = self.metric_f1.compute(predictions=predictions_idx, references=labels, average="macro")
 		return {
 			"accuracy": float(accuracy_result["accuracy"]),
 			"macro_f1": float(f1_result["f1"]),
@@ -124,12 +134,15 @@ class FineTuner:
 		logger.info("Transformers version=%s", transformers_version)
 		logger.info("fp16 enabled=%s", DEVICE == "cuda")
 
+		data_collator = DataCollatorWithPadding(self.tokenizer)
+
 		trainer = Trainer(
 			model=self.model,
 			args=training_args,
 			train_dataset=self.train_dataset,
 			eval_dataset=self.eval_dataset,
 			tokenizer=self.tokenizer,
+			data_collator=data_collator,
 			compute_metrics=self._compute_metrics,
 		)
 
