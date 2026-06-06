@@ -19,3 +19,5 @@ outputs/models/
 
 # Hugging Face cache
 .cache/
+
+.env
