@@ -1,11 +1,5 @@
 # Benchmark Text Classification with Hugging Face
 
-![Accuracy Comparison](outputs/plots/accuracy_comparison.png)
-
-![Latency Comparison](outputs/plots/latency_comparison.png)
-
-![Data Efficiency](outputs/plots/data_efficiency.png)
-
 ## Project Overview
 
 This repository benchmarks three text classification strategies on the AG News dataset:
@@ -29,6 +23,12 @@ Dataset size:
 
 - **Train:** 120,000 examples
 - **Test:** 7,600 examples
+
+![Accuracy Comparison](outputs/plots/accuracy_comparison.png)
+
+![Latency Comparison](outputs/plots/latency_comparison.png)
+
+![Data Efficiency](outputs/plots/data_efficiency.png)
 
 ## System Architecture
 
