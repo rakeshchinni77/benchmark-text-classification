@@ -13,8 +13,6 @@ __pycache__/
 # Jupyter
 *.ipynb_checkpoints/
 
-# Generated results
-results/results.json
 
 # Trained models
 outputs/models/

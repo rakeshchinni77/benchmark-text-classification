@@ -1,0 +1,27 @@
+{
+  "k_2": {
+    "accuracy": 0.84,
+    "macro_f1": 0.779647588401666,
+    "median_latency_ms": 233.41600003186613,
+    "p99_latency_ms": 1031.3930000411347
+  },
+  "k_4": {
+    "accuracy": 0.8,
+    "macro_f1": 0.7475596485893969,
+    "median_latency_ms": 286.4722000085749,
+    "p99_latency_ms": 755.1213999977335
+  },
+  "k_8": {
+    "accuracy": 0.8,
+    "macro_f1": 0.7475596485893969,
+    "median_latency_ms": 421.9602500088513,
+    "p99_latency_ms": 552.015999914147
+  },
+  "k_16": {
+    "accuracy": 0.8,
+    "macro_f1": 0.7475596485893969,
+    "median_latency_ms": 507.4347499758005,
+    "p99_latency_ms": 619.5414999965578
+  },
+  "peak_gpu_memory_mb": 0.0
+}

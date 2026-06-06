@@ -1,0 +1,7 @@
+{
+  "accuracy": 0.72,
+  "macro_f1": 0.7109229347476695,
+  "median_latency_ms": 992.4560500076041,
+  "p99_latency_ms": 2632.705399999395,
+  "peak_gpu_memory_mb": 0.0
+}

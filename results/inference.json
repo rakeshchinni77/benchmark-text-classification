@@ -1,0 +1,13 @@
+{
+  "batch_size_1": {
+    "median_latency_ms": 161.2023999914527,
+    "p99_latency_ms": 187.61699995957315,
+    "per_sample_latency_ms": 161.2023999914527
+  },
+  "batch_size_128": {
+    "median_latency_ms": 20456.27335004974,
+    "p99_latency_ms": 21433.47150005866,
+    "per_sample_latency_ms": 159.8146355472636
+  },
+  "throughput_improved": true
+}

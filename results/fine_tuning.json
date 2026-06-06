@@ -1,0 +1,8 @@
+{
+  "training_time_minutes": 74.92921587405,
+  "peak_training_gpu_memory_mb": 4245.70947265625,
+  "evaluation": {
+    "accuracy": 0.9478947368421052,
+    "macro_f1": 0.9479121490179497
+  }
+}

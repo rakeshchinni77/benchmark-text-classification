@@ -376,6 +376,37 @@ Phase 8 Fine-Tuning DistilBERT Output: finetuned_full model Save: outputs/models
 Phase 9 Inference Benchmarking Run: bs=1 bs=128 Collect: latency metrics
 Phase 10 Data Efficiency Train: 100 500 2000 10000 120000 Collect: accuracy curve Export results JSON. 
 
+
+Phase 11
+
+Results Aggregation
+
+Generate:
+
+results/results.json
+
+using:
+
+Zero-Shot results
+Few-Shot results
+Sensitivity results
+Fine-Tuning results
+Data Efficiency results
+
+Phase 12
+
+README + Plots + Final Packaging
+
+Generate:
+
+accuracy_comparison.png
+latency_comparison.png
+data_efficiency.png
+
+Complete README.
+
+Create decision flowchart.
+
 ## Back To Laptop
 Phase 11 Results Aggregation Generate: results/results.json using: Zero-Shot results Few-Shot results Sensitivity results Fine-Tuning results Data Efficiency results
 Phase 12 README + Plots + Final Packaging Generate: accuracy_comparison.png latency_comparison.png data_efficiency.png Complete README.
@@ -523,12 +554,19 @@ peak_training_gpu_memory_mb
 accuracy
 macro_f1
 
-current phase
+
 Phase 9-Inference Benchmarking
+status - completed
 
+Phase 10 Data Efficiency Train: 100 500 2000 10000 120000 Collect: accuracy curve Export results JSON.
+status-completed
 
-Future Dependencies:
-Phase 10 uses same pipeline for data efficiency study.
+Back To Laptop
+Phase 11
+
+Results Aggregation
+
+status - current
 
 ---
 

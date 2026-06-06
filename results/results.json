@@ -1,0 +1,83 @@
+{
+  "zero_shot": {
+    "accuracy": 0.72,
+    "macro_f1": 0.7109229347476695,
+    "median_latency_ms": 992.4560500076041,
+    "p99_latency_ms": 2632.705399999395,
+    "peak_gpu_memory_mb": 0.0
+  },
+  "few_shot": {
+    "k_2": {
+      "accuracy": 0.84,
+      "macro_f1": 0.779647588401666,
+      "median_latency_ms": 233.41600003186613,
+      "p99_latency_ms": 1031.3930000411347
+    },
+    "k_4": {
+      "accuracy": 0.8,
+      "macro_f1": 0.7475596485893969,
+      "median_latency_ms": 286.4722000085749,
+      "p99_latency_ms": 755.1213999977335
+    },
+    "k_8": {
+      "accuracy": 0.8,
+      "macro_f1": 0.7475596485893969,
+      "median_latency_ms": 421.9602500088513,
+      "p99_latency_ms": 552.015999914147
+    },
+    "k_16": {
+      "accuracy": 0.8,
+      "macro_f1": 0.7475596485893969,
+      "median_latency_ms": 507.4347499758005,
+      "p99_latency_ms": 619.5414999965578
+    },
+    "peak_gpu_memory_mb": 0.0
+  },
+  "sensitivity": {
+    "seed_results": {
+      "42": 0.84,
+      "123": 0.82,
+      "999": 0.8260869565217391
+    },
+    "accuracy_mean": 0.8286956521739129,
+    "accuracy_std": 0.008370741494605018
+  },
+  "fine_tuning": {
+    "training_time_minutes": 74.92921587405,
+    "peak_training_gpu_memory_mb": 4245.70947265625,
+    "evaluation": {
+      "accuracy": 0.9478947368421052,
+      "macro_f1": 0.9479121490179497
+    }
+  },
+  "inference": {
+    "batch_size_1": {
+      "median_latency_ms": 161.2023999914527,
+      "p99_latency_ms": 187.61699995957315,
+      "per_sample_latency_ms": 161.2023999914527
+    },
+    "batch_size_128": {
+      "median_latency_ms": 20456.27335004974,
+      "p99_latency_ms": 21433.47150005866,
+      "per_sample_latency_ms": 159.8146355472636
+    },
+    "throughput_improved": true
+  },
+  "data_efficiency": {
+    "100": {
+      "accuracy": 0.25144736842105264
+    },
+    "500": {
+      "accuracy": 0.25355263157894736
+    },
+    "2000": {
+      "accuracy": 0.8652631578947368
+    },
+    "10000": {
+      "accuracy": 0.9123684210526316
+    },
+    "120000": {
+      "accuracy": 0.9478947368421052
+    }
+  }
+}
