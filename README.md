@@ -1,122 +1,222 @@
-# benchmark-text-classification
+# Benchmark Text Classification with Hugging Face
 
-Production-grade NLP benchmarking scaffold for comparing zero-shot, few-shot, and fine-tuned text classification approaches using the Hugging Face ecosystem.
+![Accuracy Comparison](outputs/plots/accuracy_comparison.png)
+
+![Latency Comparison](outputs/plots/latency_comparison.png)
+
+![Data Efficiency](outputs/plots/data_efficiency.png)
 
 ## Project Overview
 
-This repository is structured to benchmark three common paradigms for text classification:
+This repository benchmarks three text classification strategies on the AG News dataset:
 
-- Zero-shot classification using a pre-trained NLI model
-- Few-shot classification using in-context examples
-- Fine-tuning a sequence classification model on a labeled dataset
+- **Zero-Shot Classification**: use a pre-trained natural language inference model without any task-specific training.
+- **Few-Shot Classification**: provide in-context examples to a prompt-based model and evaluate performance with a small number of examples.
+- **Fine-Tuning**: train a DistilBERT classifier on labeled AG News examples and evaluate on held-out data.
 
-The project will ultimately produce structured benchmark results, plots, and a decision guide for selecting the best technique under different constraints.
+The comparison is designed to highlight practical trade-offs in accuracy, latency, data efficiency, and operational cost.
 
-## Problem Statement
+## Dataset
 
-Text classification projects often need to balance accuracy, latency, cost, data availability, and operational complexity. This repository is intended to provide a reproducible framework for comparing those trade-offs in a controlled way.
+The benchmark uses the **AG News** dataset with the following classes:
 
-## Objectives
+- World
+- Sports
+- Business
+- Science/Technology
 
-- Establish a reproducible benchmark pipeline for AG News classification
-- Compare zero-shot, few-shot, and fine-tuned approaches under a shared evaluation protocol
-- Capture latency, accuracy, F1, and memory metrics
-- Produce a structured results artifact for automated validation
-- Provide a decision guide for future model selection
+Dataset size:
 
-## Architecture Overview
+- **Train:** 120,000 examples
+- **Test:** 7,600 examples
 
-The repository is organized into clear layers:
+## System Architecture
 
-- `src/data` for dataset loading and preprocessing
-- `src/models` for classification strategy wrappers
-- `src/evaluation` for metrics, latency, and memory tracking
-- `src/experiments` for benchmark execution flows
-- `src/results` for aggregation and JSON export
-- `src/utils` for shared helpers
+The benchmark workflow is organized into the following stages:
 
-## Folder Structure
+1. **Data Preparation** — load AG News and prepare train/test splits.
+2. **Zero-Shot Evaluation** — classify test examples without labeled training data.
+3. **Few-Shot Evaluation** — evaluate prompt-based classification with small k-shot examples.
+4. **Fine-Tuning** — fine-tune DistilBERT on labeled training data.
+5. **Inference Benchmarking** — measure model latency on representative workloads.
+6. **Data Efficiency Analysis** — track accuracy as training examples increase.
+7. **Results Aggregation** — merge all benchmark outputs into a single JSON artifact.
 
-- `src/` application source and package modules
-- `outputs/` model artifacts, logs, and plots produced during experiments
-- `results/` structured benchmark outputs
-- `.venv/` local-only virtual environment, ignored by Git
+> Architecture diagram:
+>
+> ```text
+> Data Preparation
+>      ↓
+> Zero-Shot Evaluation
+>      ↓
+> Few-Shot Evaluation
+>      ↓
+> Fine-Tuning
+>      ↓
+> Inference Benchmarking
+>      ↓
+> Data Efficiency Analysis
+>      ↓
+> Results Aggregation
+> ```
 
-## Planned Experiments
+## Repository Structure
 
-- Zero-shot baseline on the AG News test split
-- Few-shot evaluation for `k = 2, 4, 8, 16`
-- Few-shot sensitivity study for repeated `k = 8` runs
-- Fine-tuning on the full dataset and on smaller data subsets
-- Inference benchmarking at batch size 1 and batch size 128
+```text
+benchmark-text-classification/
+├── Dockerfile
+├── README.md
+├── docker-compose.yml
+├── requirements.txt
+├── .env.example
+├── src/
+│   ├── config/
+│   ├── data/
+│   ├── evaluation/
+│   ├── experiments/
+│   ├── models/
+│   ├── results/
+│   └── utils/
+├── outputs/
+│   └── plots/
+└── results/
+```
 
-## Expected Results
+## Setup Instructions
 
-The final pipeline will generate `results/results.json` containing benchmark metrics for all three approaches, plus summary statistics for sensitivity and data-efficiency experiments.
+### Local Setup
 
-## Future Phases
+Clone the repository and navigate into the project root:
 
-- Phase 1: Docker and environment foundation
-- Phase 2: Core configuration and utility modules
-- Phase 3: Data loading and preprocessing
-- Phase 4: Zero-shot implementation and evaluation
-- Phase 5: Few-shot prompting and sensitivity analysis
-- Phase 6: Fine-tuning pipeline and data efficiency study
-- Phase 7: Result aggregation, charts, and final decision guide
+```bash
+git clone <repo-url>
+cd benchmark-text-classification
+```
 
-## Local Development Setup
+### Virtual Environment Setup
 
-Create a virtual environment locally:
+Create and activate a local Python virtual environment:
 
 ```bash
 python -m venv .venv
+.venv\Scripts\activate      # Windows PowerShell
+# or
+source .venv/bin/activate   # macOS / Linux
 ```
 
-Activate it, install dependencies, and prepare your local environment before running the containerized workflow.
+### Install Dependencies
+
+Install project dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and adjust any local Hugging Face cache or GPU settings as needed.
+### Run Experiments
 
-## Dependencies
+This repository is designed to use precomputed benchmark results rather than retraining models in Phase 12.
 
-The current runtime dependency set is intentionally lightweight for the infrastructure and data phases:
+To regenerate summary plots from `results/results.json`:
 
-- `python-dotenv`
-- `numpy`
-- `pandas`
-- `tqdm`
-- `datasets`
-- `evaluate`
-- `scikit-learn`
+```bash
+python -c "from src.results.generate_plots import generate_all_plots; generate_all_plots()"
+```
 
-Phase 3 requires `datasets` so the AG News loader can import `from datasets import load_dataset`. Phase 4 adds `evaluate` for reusable metrics. The heavier ML stack such as `torch`, `transformers`, and `accelerate` remains deferred until later phases.
+## Docker Usage
 
-## Docker Setup
-
-Build and run the Phase 1 container bootstrap with:
+Build and run the containerized environment:
 
 ```bash
 docker-compose up --build
 ```
 
-This startup path currently prints the initialization message and ensures the expected runtime folders exist:
+Expected repository outputs include:
 
-- `outputs/logs`
-- `outputs/models`
-- `outputs/plots`
-- `results`
+- `outputs/plots/`
+- `results/`
 
-The repository also includes a `.dockerignore` file to keep the build context small and predictable. It excludes the local virtual environment, Git metadata, editor settings, Python caches, Hugging Face caches, and generated model/results artifacts so Docker does not spend time sending unnecessary files to the daemon.
+This command ensures the required runtime environment is built and validates the container workflow.
 
-That keeps `docker-compose build` faster and prevents local-only files from being copied into the image.
+## Benchmark Results
 
-Phase 1 intentionally keeps `requirements.txt` lightweight so the base container can build quickly without downloading the full machine learning stack. The Hugging Face, PyTorch, and model-training dependencies will be added in later phases when the benchmark pipeline itself is implemented.
+The aggregated benchmark data is stored in `results/results.json`.
 
-The container is prepared for later ML implementation phases, including Hugging Face caching and future GPU-enabled training.
+### Accuracy Comparison
 
-## Docker Setup Placeholder
+| Method                | Accuracy |
+| --------------------- | -------- |
+| Zero-Shot             | 0.720    |
+| Few-Shot (best k = 2) | 0.840    |
+| Fine-Tuning           | 0.9479   |
 
-Docker support is scaffolded at the repository root with `Dockerfile` and `docker-compose.yml`. The full experimental pipeline will be wired up in a later phase.
+### Latency Comparison
+
+| Method                | Median Latency (ms) |
+| --------------------- | ------------------- |
+| Zero-Shot             | 992.456             |
+| Few-Shot (best k = 2) | 233.416             |
+| Fine-Tuning           | 161.202             |
+
+### Data Efficiency
+
+| Training Samples | Accuracy |
+| ---------------- | -------- |
+| 100              | 0.2514   |
+| 500              | 0.2536   |
+| 2,000            | 0.8653   |
+| 10,000           | 0.9124   |
+| 120,000          | 0.9479   |
+
+## Analysis
+
+- **Fine-Tuning achieved the best accuracy** because the model is directly optimized for the AG News classification task using labeled examples.
+- **Few-Shot outperformed zero-shot** by using a small number of in-context examples to improve task understanding without requiring full training.
+- **Inference latency improved with fine-tuning** because the trained DistilBERT classifier executes a single efficient forward pass, whereas few-shot inference includes additional prompt processing.
+
+## Key Findings
+
+- Fine-tuning is the most accurate approach when labeled data is available.
+- Few-shot is a strong option when limited labeled data exists and training is not feasible.
+- Zero-shot provides a fast baseline when no labels are available.
+- The accuracy curve shows large gains from 500 to 2,000 training examples, making moderate labeled budgets especially valuable.
+
+## Decision Flowchart
+
+```text
+      Start
+        |
+        v
+Do you have labeled data?
+        |
+   +----+----+
+   |         |
+  No        Yes
+   |         |
+   v         v
+Zero-Shot   Is dataset small?
+             |
+         +---+---+
+         |       |
+        Yes      No
+         |       |
+         v       v
+     Few-Shot  Fine-Tuning
+```
+
+### When to choose each approach
+
+- **Zero-Shot**: fast baseline with no training data.
+- **Few-Shot**: small labeled examples are available, or training is expensive.
+- **Fine-Tuning**: sufficient labeled data exists and maximum accuracy is required.
+
+## Future Improvements
+
+- Evaluate larger instruction-tuned and retrieval-augmented models.
+- Add hyperparameter tuning for fine-tuning and prompt settings.
+- Benchmark additional datasets beyond AG News.
+- Extend support to multi-label and multilingual classification.
+- Add cost and throughput benchmarking for production deployments.
+
+## Conclusion
+
+This benchmark provides a clear comparison of zero-shot, few-shot, and fine-tuning approaches on AG News. It delivers measurable accuracy and latency trade-offs, practical data-efficiency insights, and a decision guide to help ML engineers choose the right strategy.
