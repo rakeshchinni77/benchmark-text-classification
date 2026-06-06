@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 class FineTuner:
 	"""Encapsulates supervised fine-tuning of DistilBERT for AG News."""
 
-	def __init__(self, output_dir: Path | str | None = None, development_mode: bool = False) -> None:
+	def __init__(self, output_dir: Path | str | None = None, development_mode: bool = False, train_size: int | None = None) -> None:
 		self.output_dir = Path(output_dir or MODEL_OUTPUT_DIR / "finetuned_full")
 		self.output_dir.mkdir(parents=True, exist_ok=True)
 		self.tokenizer = AutoTokenizer.from_pretrained(FINE_TUNE_MODEL)
@@ -48,6 +48,7 @@ class FineTuner:
 			num_labels=len(LABEL_NAMES),
 		)
 		self.development_mode = development_mode
+		self.train_size = train_size
 		self.train_dataset, self.eval_dataset = self._prepare_datasets()
 		self.metric_accuracy = evaluate.load("accuracy")
 		self.metric_f1 = evaluate.load("f1")
@@ -62,8 +63,11 @@ class FineTuner:
 		if self.development_mode:
 			train_dataset = train_dataset.select(range(min(5000, len(train_dataset))))
 			eval_dataset = eval_dataset.select(range(min(1000, len(eval_dataset))))
+		elif self.train_size is not None:
+			train_dataset = train_dataset.select(range(min(self.train_size, len(train_dataset))))
 
 		logger.info("Fine-tuning development mode=%s", self.development_mode)
+		logger.info("Fine-tuning train_size=%s", self.train_size)
 		logger.info("Train dataset size=%d", len(train_dataset))
 		logger.info("Eval dataset size=%d", len(eval_dataset))
 
