@@ -89,7 +89,7 @@ benchmark-text-classification/
 Clone the repository and navigate into the project root:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/rakeshchinni77/benchmark-text-classification
 cd benchmark-text-classification
 ```
 

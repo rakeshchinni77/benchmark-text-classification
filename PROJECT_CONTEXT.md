@@ -572,7 +572,7 @@ Phase 12
 
 README + Plots + Final Packaging
 
-status - cuurent
+status - completed
 Generate:
 
 accuracy_comparison.png

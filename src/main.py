@@ -17,6 +17,9 @@ def main() -> None:
 	for path in required_paths:
 		path.mkdir(parents=True, exist_ok=True)
 
+	print("Benchmark Text Classification Pipeline Initialized")
+	print(f"Verified runtime directories: {', '.join(str(p) for p in required_paths)}")
+
 
 if __name__ == "__main__":
 	main()

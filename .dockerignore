@@ -5,7 +5,6 @@ __pycache__
 .vscode
 outputs/models
 outputs/logs
-results/results.json
 .cache
 .huggingface
 huggingface

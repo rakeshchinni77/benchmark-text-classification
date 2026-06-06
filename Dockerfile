@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 # Keep the image small and reproducible while still allowing a future GPU-enabled base swap.
 ENV PYTHONDONTWRITEBYTECODE=1 \
